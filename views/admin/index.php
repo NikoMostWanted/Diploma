@@ -1,9 +1,11 @@
 <?php
   use yii\helpers\Html;
 ?>
-
+<?php
+  $this->title = 'Админ панель';
+  $this->params['breadcrumbs'][] = $this->title;
+?>
 <div class="site-index">
-  <?= Html::a('Регистрация пользователей', ['admin/register-user'], ['class' => 'btn btn-link']); ?>
-  <?= Html::a('Редактирование пользователей', ['admin/edit-user'], ['class' => 'btn btn-link']); ?>
-  <?= Html::a('Удаление пользователей', ['admin/delete-user'], ['class' => 'btn btn-link']); ?>
+  <?= Html::a('Управление пользователями', ['admin/users'], ['class' => 'btn btn-link']); ?>
+  <?= Html::a('Управление навигацией', ['admin/navigation'], ['class' => 'btn btn-link']); ?>
 </div>

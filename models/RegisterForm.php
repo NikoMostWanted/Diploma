@@ -21,6 +21,7 @@ class RegisterForm extends Model
     public $lastname;
     public $email;
     public $phone;
+    public $role__id;
 
     /**
      * @return array the validation rules.
@@ -28,24 +29,30 @@ class RegisterForm extends Model
     public function rules()
     {
         return [
-            [['username', 'password', 'firstname', 'lastname', 'email', 'phone'], 'required'],
+            [['username', 'password', 'firstname', 'lastname', 'email', 'phone', 'role__id'], 'required'],
         ];
     }
 
-    /**
-     * @return bool whether the user is logged in successfully
-     */
-    public function register()
+    public function create($id = false)
     {
         if ($this->validate())
         {
-            $user = new Users();
-            $profile = new Profiles();
+            if($id != false)
+            {
+              $user = Users::findOne($id);
+              $profile = Profiles::findOne(['user__id' => $id]);
+            }
+            else
+            {
+              $user = new Users();
+              $profile = new Profiles();
+            }
 
             $data = \Yii::$app->request->post();
 
             $user->username = $data['RegisterForm']['username'];
-            $user->password = $data['RegisterForm']['password'];
+            $user->password = md5($data['RegisterForm']['password']);
+            $user->role__id = $data['RegisterForm']['role__id'];
             $profile->firstname = $data['RegisterForm']['firstname'];
             $profile->lastname = $data['RegisterForm']['lastname'];
             $profile->email = $data['RegisterForm']['email'];
@@ -65,11 +72,10 @@ class RegisterForm extends Model
               {
                   throw new Exception('Ошибка сохранения данных пользователя');
               }
-              Yii::$app->session->setFlash('success-register', 'Пользователь успешно зарегестрирован');
               $transaction->commit();
               return true;
             }
-            catch (Throwable $e)
+            catch (Exception $e)
             {
                 $transaction->rollBack();
             }
