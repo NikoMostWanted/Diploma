@@ -47,9 +47,9 @@ class Users extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
     {
         return [
             'id' => 'ID',
-            'username' => 'Username',
-            'password' => 'Password',
-            'role__id' => 'Role  ID',
+            'username' => 'Логин',
+            'password' => 'Пароль',
+            'role__id' => 'Роль',
         ];
     }
 
@@ -67,6 +67,20 @@ class Users extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
     public function getRole()
     {
         return $this->hasOne(Roles::className(), ['id' => 'role__id']);
+    }
+
+    public static function isAdmin($id)
+    {
+        $user = self::findOne($id);
+
+        if($user->role->name == 'Admin')
+        {
+            return true;
+        }
+        else
+        {
+          return false;
+        }
     }
 
     /**
