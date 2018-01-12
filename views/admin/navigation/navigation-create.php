@@ -25,7 +25,8 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= $form->field($model, 'label')->textInput(['autofocus' => true]) ?>
 
         <?= $form->field($model, 'url')->textInput() ?>
-        <?= $form->field($model, 'own')->textInput() ?>
+
+        <?= $form->field($model, 'own')->dropDownList(['1' => 'Админ', '2' => 'Клиент', '3' => 'Всем']); ?>
 
         <div class="form-group">
             <div class="col-lg-offset-1 col-lg-11">

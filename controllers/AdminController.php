@@ -11,6 +11,7 @@ use app\models\Roles;
 use app\models\Profiles;
 use yii\base\Exception;
 use app\models\forms\NavigationForm;
+use app\models\Navigations;
 
 class AdminController extends Controller
 {

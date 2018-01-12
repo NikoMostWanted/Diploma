@@ -5,6 +5,7 @@ namespace app\models\forms;
 use Yii;
 use yii\base\Model;
 use yii\base\Exception;
+use app\models\Navigations;
 
 class NavigationForm extends Model
 {
@@ -27,7 +28,17 @@ class NavigationForm extends Model
     {
         if ($this->validate())
         {
+            $navigation = new Navigations();
+            $data = \Yii::$app->request->post();
 
+            $navigation->label = $data['NavigationForm']['label'];
+            $navigation->url = $data['NavigationForm']['url'];
+            $navigation->own = $data['NavigationForm']['own'];
+
+            if(!$navigation->save())
+            {
+                 throw new Exception('Ошибка сохранения данных навигации');
+            }
             return true;
         }
         return false;
