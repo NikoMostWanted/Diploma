@@ -35,6 +35,7 @@ class Profiles extends \yii\db\ActiveRecord
             [['user__id', 'firstname', 'lastname', 'email', 'phone'], 'required'],
             [['user__id'], 'integer'],
             [['firstname', 'lastname', 'email', 'phone'], 'string', 'max' => 255],
+            ['email', 'email'],
             [['user__id'], 'exist', 'skipOnError' => true, 'targetClass' => Users::className(), 'targetAttribute' => ['user__id' => 'id']],
         ];
     }

@@ -5,11 +5,12 @@ namespace app\controllers;
 use Yii;
 use yii\web\Controller;
 use app\models\Users;
-use app\models\RegisterForm;
+use app\models\forms\RegisterForm;
 use yii\data\Pagination;
 use app\models\Roles;
 use app\models\Profiles;
 use yii\base\Exception;
+use app\models\forms\NavigationForm;
 
 class AdminController extends Controller
 {
@@ -44,11 +45,11 @@ class AdminController extends Controller
         }
 
         if ($model->load(Yii::$app->request->post()) && $model->create()) {
-          Yii::$app->getSession()->setFlash('success-crate', 'Пользователь успешно создан!');
+          Yii::$app->getSession()->setFlash('success-create', 'Пользователь успешно создан!');
           return $this->redirect(['admin/users']);
         }
 
-        return $this->render('register-user', ['model' => $model, 'roles' => $data_roles]);
+        return $this->render('user/register-user', ['model' => $model, 'roles' => $data_roles]);
     }
 
     public function actionEditUser($id)
@@ -80,7 +81,7 @@ class AdminController extends Controller
         $model->phone = $user_data->profiles->phone;
         $model->role__id = $user_data->role__id;
 
-        return $this->render('edit-user', ['model' => $model, 'roles' => $data_roles]);
+        return $this->render('user/edit-user', ['model' => $model, 'roles' => $data_roles]);
     }
 
     public function actionDeleteUser($id)
@@ -90,18 +91,15 @@ class AdminController extends Controller
             return $this->redirect(['http-errors/403']);
         }
 
-        $user = Users::findOne($id);
-        $profile = $user->profiles;
-
         $transaction = Yii::$app->db->beginTransaction();
         try
         {
-          if(!$user->delete())
+          if(!Yii::$app->db->createCommand()->delete('profiles', ['user__id' => $id])->execute())
           {
               throw new Exception('Ошибка удаления данных пользователя');
           }
 
-          if(!$profiles->delete())
+          if(!Yii::$app->db->createCommand()->delete('users', ['id' => $id])->execute())
           {
               throw new Exception('Ошибка удаления данных пользователя');
           }
@@ -112,7 +110,7 @@ class AdminController extends Controller
         {
             $transaction->rollBack();
         }
-        
+
         return $this->redirect(['admin/users']);
     }
 
@@ -132,7 +130,34 @@ class AdminController extends Controller
           ->limit($pages->limit)
           ->all();
 
-        return $this->render('user', ['models' => $models, 'pages' => $pages]);
+        return $this->render('user/user', ['models' => $models, 'pages' => $pages]);
+    }
+
+    public function actionNavigation()
+    {
+        if(!Users::isAdmin(Yii::$app->user->id))
+        {
+            return $this->redirect(['http-errors/403']);
+        }
+
+        return $this->render('navigation/navigation');
+    }
+
+    public function actionNavigationCreate()
+    {
+        if(!Users::isAdmin(Yii::$app->user->id))
+        {
+            return $this->redirect(['http-errors/403']);
+        }
+
+        $model = new NavigationForm();
+
+        if ($model->load(Yii::$app->request->post()) && $model->create()) {
+          Yii::$app->getSession()->setFlash('success-create', 'Навигация успешно создана!');
+          return $this->redirect(['admin/navigation']);
+        }
+
+        return $this->render('navigation/navigation-create', ['model' => $model]);
     }
 
 }

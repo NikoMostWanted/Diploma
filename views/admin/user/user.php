@@ -1,6 +1,10 @@
 <?php
   use yii\helpers\Html;
   use yii\widgets\LinkPager;
+
+  $this->title = 'Управление пользователями';
+  $this->params['breadcrumbs'][] = ['label' => 'Админ панель', 'url' => 'index'];
+  $this->params['breadcrumbs'][] = $this->title;
 ?>
 <? if(Yii::$app->session->hasFlash('success-edit')): ?>
     <div class="alert alert-success"><?= Yii::$app->session->getFlash('success-edit'); ?></div>
@@ -11,7 +15,7 @@
 <? endif; ?>
 
 <? if(Yii::$app->session->hasFlash('success-delete')): ?>
-    <div class="alert alert-delete"><?= Yii::$app->session->getFlash('success-delete'); ?></div>
+    <div class="alert alert-success"><?= Yii::$app->session->getFlash('success-delete'); ?></div>
 <? endif; ?>
 
 <?= Html::a('Создать нового пользователя', ['admin/register-user'], ['class' => 'btn btn-success']); ?>

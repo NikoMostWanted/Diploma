@@ -1,0 +1,48 @@
+<?php
+
+namespace app\models;
+
+use Yii;
+
+/**
+ * This is the model class for table "navigations".
+ *
+ * @property integer $id
+ * @property string $label
+ * @property string $url
+ * @property integer $own
+ */
+class Navigations extends \yii\db\ActiveRecord
+{
+    /**
+     * @inheritdoc
+     */
+    public static function tableName()
+    {
+        return 'navigations';
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function rules()
+    {
+        return [
+            [['own'], 'integer'],
+            [['label', 'url'], 'string', 'max' => 255],
+        ];
+    }
+
+    /**
+     * @inheritdoc
+     */
+    public function attributeLabels()
+    {
+        return [
+            'id' => 'ID',
+            'label' => 'Label',
+            'url' => 'Url',
+            'own' => 'Own',
+        ];
+    }
+}

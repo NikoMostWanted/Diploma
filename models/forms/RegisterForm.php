@@ -1,10 +1,12 @@
 <?php
 
-namespace app\models;
+namespace app\models\forms;
 
 use Yii;
 use yii\base\Model;
 use yii\base\Exception;
+use app\models\Users;
+use app\models\Profiles;
 
 /**
  * RegisterForm is the model behind the register form.
@@ -30,6 +32,7 @@ class RegisterForm extends Model
     {
         return [
             [['username', 'password', 'firstname', 'lastname', 'email', 'phone', 'role__id'], 'required'],
+            ['email', 'email'],
         ];
     }
 
