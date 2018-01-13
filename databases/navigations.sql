@@ -2,7 +2,7 @@
 
 CREATE TABLE `navigations` (
     `id` int(11) NOT NULL AUTO_INCREMENT,
-    'alias' char(255) DEFAULT NULL,
+    `alias` char(255) DEFAULT NULL,
     `label` char(255) DEFAULT NULL,
     `url` char(255) DEFAULT NULL,
     `own` tinyint(2) DEFAULT NULL COMMENT '1 - админ, 2 - клиент',
