@@ -7,9 +7,6 @@ $this->params['breadcrumbs'][] = ['label' => 'Админ панель', 'url' =>
 $this->params['breadcrumbs'][] = $this->title;
 
 ?>
-<div class="alert alert-success">
-   Авторизация, разлогинивание и админ панель стоят по умолчанию в навигации!
-</div>
 
 <? if(Yii::$app->session->hasFlash('success-create')): ?>
     <div class="alert alert-success"><?= Yii::$app->session->getFlash('success-create'); ?></div>
