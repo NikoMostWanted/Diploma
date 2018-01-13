@@ -8,6 +8,7 @@ use Yii;
  * This is the model class for table "navigations".
  *
  * @property integer $id
+ * @property integer $alias
  * @property string $label
  * @property string $url
  * @property integer $own
@@ -29,7 +30,7 @@ class Navigations extends \yii\db\ActiveRecord
     {
         return [
             [['own'], 'integer'],
-            [['label', 'url'], 'string', 'max' => 255],
+            [['label', 'url', 'alias'], 'string', 'max' => 255],
         ];
     }
 
@@ -43,6 +44,7 @@ class Navigations extends \yii\db\ActiveRecord
             'label' => 'Label',
             'url' => 'Url',
             'own' => 'Own',
+            'alias' => 'Alias',
         ];
     }
 

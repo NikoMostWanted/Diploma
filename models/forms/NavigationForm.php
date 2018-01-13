@@ -13,6 +13,7 @@ class NavigationForm extends Model
     public $label;
     public $url;
     public $own;
+    public $alias;
 
     /**
      * @return array the validation rules.
@@ -20,7 +21,7 @@ class NavigationForm extends Model
     public function rules()
     {
         return [
-            [['label', 'url', 'own'], 'required'],
+            [['label', 'url', 'own', 'alias'], 'required'],
         ];
     }
 
@@ -40,6 +41,7 @@ class NavigationForm extends Model
             $data = \Yii::$app->request->post();
 
             $navigation->label = $data['NavigationForm']['label'];
+            $navigation->alias = $data['NavigationForm']['alias'];
             $navigation->url = $data['NavigationForm']['url'];
             $navigation->own = $data['NavigationForm']['own'];
 

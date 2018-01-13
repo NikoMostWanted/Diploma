@@ -22,7 +22,9 @@ $this->params['breadcrumbs'][] = $this->title;
         ],
     ]); ?>
 
-        <?= $form->field($model, 'label')->textInput(['autofocus' => true]) ?>
+        <?= $form->field($model, 'alias')->textInput(['autofocus' => true]) ?>
+
+          <?= $form->field($model, 'label')->textInput() ?>
 
         <?= $form->field($model, 'url')->textInput() ?>
 

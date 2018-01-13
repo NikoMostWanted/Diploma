@@ -40,40 +40,43 @@ AppAsset::register($this);
     ]);
 
     foreach(Navigations::getClientNav() as $nav):
-      echo Nav::widget([
-          'options' => ['class' => 'navbar-nav navbar-right'],
-          'items' => [
-                ['label' => $nav->label, 'url' => [$nav->url]]
-          ]
-      ]);
-    endforeach;
 
-    echo Nav::widget([
-        'options' => ['class' => 'navbar-nav navbar-right'],
-        'items' => [
-            Users::isAdmin(Yii::$app->user->id) ? (
-              ['label' => 'Админ панель', 'url' => ['/admin/index']]
-            ) : ('')
-        ]
-    ]);
-
-    echo Nav::widget([
-        'options' => ['class' => 'navbar-nav navbar-right'],
-        'items' => [
-            Yii::$app->user->isGuest ? (
-                ['label' => 'Login', 'url' => ['/site/login']]
-            ) : (
-                '<li>'
-                . Html::beginForm(['/site/logout'], 'post')
-                . Html::submitButton(
-                    'Logout (' . Yii::$app->user->identity->username . ')',
-                    ['class' => 'btn btn-link logout']
+      if($nav->alias == 'AdminPanel'):
+        echo Nav::widget([
+            'options' => ['class' => 'navbar-nav navbar-right'],
+            'items' => [
+                Users::isAdmin(Yii::$app->user->id) ? (
+                  ['label' => $nav->label, 'url' => [$nav->url]]
+                ) : ('')
+            ]
+        ]);
+      elseif($nav->alias == 'Authorization'):
+        echo Nav::widget([
+            'options' => ['class' => 'navbar-nav navbar-right'],
+            'items' => [
+                Yii::$app->user->isGuest ? (
+                    ['label' => $nav->label, 'url' => [$nav->url]]
+                ) : (
+                    '<li>'
+                    . Html::beginForm(['/site/logout'], 'post')
+                    . Html::submitButton(
+                        'Выйти (' . Yii::$app->user->identity->username . ')',
+                        ['class' => 'btn btn-link logout']
+                    )
+                    . Html::endForm()
+                    . '</li>'
                 )
-                . Html::endForm()
-                . '</li>'
-            )
-        ],
-    ]);
+            ],
+        ]);
+      else:
+        echo Nav::widget([
+            'options' => ['class' => 'navbar-nav navbar-right'],
+            'items' => [
+                  ['label' => $nav->label, 'url' => [$nav->url]]
+            ]
+        ]);
+      endif;
+    endforeach;
     NavBar::end();
     ?>
 

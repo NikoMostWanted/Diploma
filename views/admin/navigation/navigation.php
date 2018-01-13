@@ -29,6 +29,7 @@ $this->params['breadcrumbs'][] = $this->title;
 <table class="table">
   <thead>
     <tr>
+      <th scope="col">Псевдоним</th>
       <th scope="col">Название</th>
       <th scope="col">URL</th>
       <th scope="col">Действия</th>
@@ -37,6 +38,7 @@ $this->params['breadcrumbs'][] = $this->title;
   <tbody>
     <?php foreach ($modelsAdmin as $model): ?>
       <tr>
+        <td><?= $model->alias; ?></td>
         <td><?= $model->label; ?></td>
         <td><?= $model->url; ?></td>
         <td>
@@ -58,6 +60,7 @@ $this->params['breadcrumbs'][] = $this->title;
 <table class="table">
   <thead>
     <tr>
+      <th scope="col">Псевдоним</th>
       <th scope="col">Название</th>
       <th scope="col">URL</th>
       <th scope="col">Действия</th>
@@ -66,6 +69,7 @@ $this->params['breadcrumbs'][] = $this->title;
   <tbody>
     <?php foreach ($modelsClient as $model): ?>
       <tr>
+        <td><?= $model->alias; ?></td>
         <td><?= $model->label; ?></td>
         <td><?= $model->url; ?></td>
         <td>
