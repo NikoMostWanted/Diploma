@@ -3,7 +3,7 @@
 use yii\helpers\Html;
 use yii\bootstrap\ActiveForm;
 
-$this->title = 'Создание навигации';
+$this->title = 'Редактирование навигации';
 $this->params['breadcrumbs'][] = ['label' => 'Админ панель', 'url' => 'index'];
 $this->params['breadcrumbs'][] = ['label' => 'Управление навигацией', 'url' => 'navigation'];
 $this->params['breadcrumbs'][] = $this->title;
@@ -30,7 +30,7 @@ $this->params['breadcrumbs'][] = $this->title;
 
         <div class="form-group">
             <div class="col-lg-offset-1 col-lg-11">
-                <?= Html::submitButton('Создать', ['class' => 'btn btn-primary', 'name' => 'nav-button']) ?>
+                <?= Html::submitButton('Редактировать', ['class' => 'btn btn-primary', 'name' => 'nav-button']) ?>
             </div>
         </div>
 

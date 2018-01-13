@@ -1,11 +1,13 @@
 <?php
   use yii\helpers\Html;
+  use app\models\Navigations;
 ?>
 <?php
   $this->title = 'Админ панель';
   $this->params['breadcrumbs'][] = $this->title;
 ?>
 <div class="site-index">
-  <?= Html::a('Управление пользователями', ['admin/users'], ['class' => 'btn btn-link']); ?>
-  <?= Html::a('Управление навигацией', ['admin/navigation'], ['class' => 'btn btn-link']); ?>
+  <?php foreach(Navigations::getAdminNav() as $nav): ?>
+    <?= Html::a($nav->label, [$nav->url], ['class' => 'btn btn-link']); ?>
+  <?php endforeach; ?>
 </div>

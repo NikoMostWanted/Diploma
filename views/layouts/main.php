@@ -10,6 +10,7 @@ use yii\bootstrap\NavBar;
 use yii\widgets\Breadcrumbs;
 use app\assets\AppAsset;
 use app\models\Users;
+use app\models\Navigations;
 
 AppAsset::register($this);
 ?>
@@ -26,7 +27,9 @@ AppAsset::register($this);
 </head>
 <body>
 <?php $this->beginBody() ?>
+
 <div class="wrap">
+
     <?php
     NavBar::begin([
         'brandLabel' => Yii::$app->name,
@@ -35,6 +38,15 @@ AppAsset::register($this);
             'class' => 'navbar-inverse navbar-fixed-top',
         ],
     ]);
+
+    foreach(Navigations::getClientNav() as $nav):
+      echo Nav::widget([
+          'options' => ['class' => 'navbar-nav navbar-right'],
+          'items' => [
+                ['label' => $nav->label, 'url' => [$nav->url]]
+          ]
+      ]);
+    endforeach;
 
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav navbar-right'],
@@ -48,8 +60,6 @@ AppAsset::register($this);
     echo Nav::widget([
         'options' => ['class' => 'navbar-nav navbar-right'],
         'items' => [
-            ['label' => 'Home', 'url' => ['/site/index']],
-
             Yii::$app->user->isGuest ? (
                 ['label' => 'Login', 'url' => ['/site/login']]
             ) : (

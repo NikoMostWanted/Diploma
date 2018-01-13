@@ -60,7 +60,6 @@ class AdminController extends Controller
             return $this->redirect(['http-errors/403']);
         }
 
-        $user_data = Users::findOne($id);
         $model = new RegisterForm();
         $roles = Roles::find()->all();
         $data_roles = [];
@@ -115,6 +114,30 @@ class AdminController extends Controller
         return $this->redirect(['admin/users']);
     }
 
+    public function actionNavigationDelete($id)
+    {
+        if(!Users::isAdmin(Yii::$app->user->id))
+        {
+            return $this->redirect(['http-errors/403']);
+        }
+
+        try
+        {
+            if(!Yii::$app->db->createCommand()->delete('navigations', ['id' => $id])->execute())
+            {
+                throw new Exception('Ошибка удаления данных навигации');
+            }
+
+            Yii::$app->getSession()->setFlash('success-delete', 'Навигация успешно удалена!');
+        }
+        catch (Exception $e)
+        {
+            print $e->getMessage();
+        }
+
+        return $this->redirect(['admin/navigation']);
+    }
+
     public function actionUsers()
     {
         if(!Users::isAdmin(Yii::$app->user->id))
@@ -141,7 +164,24 @@ class AdminController extends Controller
             return $this->redirect(['http-errors/403']);
         }
 
-        return $this->render('navigation/navigation');
+        $countNavAdmin = Navigations::find()->where(['own' => 1])->count();
+        $countNavClient = Navigations::find()->where(['own' => 2])->count();
+
+        $pagesAdmin = new Pagination(['totalCount' => $countNavAdmin, 'pageSize' => Yii::$app->params['page'], 'pageParam' => 'admin-page']);
+        $pagesClient = new Pagination(['totalCount' => $countNavClient, 'pageSize' => Yii::$app->params['page'], 'pageParam' => 'client-page']);
+
+        $pagesAdmin->pageSizeParam = false;
+        $pagesClient->pageSizeParam = false;
+
+        $modelsAdmin = Navigations::find()->where(['own' => 1])->offset($pagesAdmin->offset)
+          ->limit($pagesAdmin->limit)
+          ->all();
+
+        $modelsClient = Navigations ::find()->where(['own' => 2])->offset($pagesClient->offset)
+          ->limit($pagesClient->limit)
+          ->all();
+
+        return $this->render('navigation/navigation', ['modelsAdmin' => $modelsAdmin, 'modelsClient' => $modelsClient, 'pagesAdmin' => $pagesAdmin, 'pagesClient' => $pagesClient]);
     }
 
     public function actionNavigationCreate()
@@ -159,6 +199,28 @@ class AdminController extends Controller
         }
 
         return $this->render('navigation/navigation-create', ['model' => $model]);
+    }
+
+    public function actionNavigationEdit($id)
+    {
+        if(!Users::isAdmin(Yii::$app->user->id))
+        {
+            return $this->redirect(['http-errors/403']);
+        }
+
+        $model = new NavigationForm();
+
+        if ($model->load(Yii::$app->request->post()) && $model->create($id)) {
+            Yii::$app->getSession()->setFlash('success-edit', 'Навигация успешно редактирована!');
+            return $this->redirect(['admin/navigation']);
+        }
+
+        $navigation_data = Navigations::findOne($id);
+        $model->label = $navigation_data->label;
+        $model->url = $navigation_data->url;
+        $model->own = $navigation_data->own;
+
+        return $this->render('navigation/navigation-edit', ['model' => $model]);
     }
 
 }

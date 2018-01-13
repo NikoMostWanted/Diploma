@@ -45,4 +45,16 @@ class Navigations extends \yii\db\ActiveRecord
             'own' => 'Own',
         ];
     }
+
+    public static function getClientNav()
+    {
+        $navs = self::find()->where(['own' => 2])->all();
+        return $navs;
+    }
+
+    public static function getAdminNav()
+    {
+        $navs = self::find()->where(['own' => 1])->all();
+        return $navs;
+    }
 }

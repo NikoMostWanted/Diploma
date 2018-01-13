@@ -24,11 +24,19 @@ class NavigationForm extends Model
         ];
     }
 
-    public function create()
+    public function create($id = false)
     {
         if ($this->validate())
         {
-            $navigation = new Navigations();
+            if($id != false)
+            {
+              $navigation = Navigations::findOne($id);
+            }
+            else
+            {
+              $navigation = new Navigations();
+            }
+
             $data = \Yii::$app->request->post();
 
             $navigation->label = $data['NavigationForm']['label'];
