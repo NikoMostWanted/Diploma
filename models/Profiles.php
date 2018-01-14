@@ -48,10 +48,10 @@ class Profiles extends \yii\db\ActiveRecord
         return [
             'id' => 'ID',
             'user__id' => 'User  ID',
-            'firstname' => 'Firstname',
-            'lastname' => 'Lastname',
+            'firstname' => 'Имя',
+            'lastname' => 'Фамилия',
             'email' => 'Email',
-            'phone' => 'Phone',
+            'phone' => 'Телефон',
         ];
     }
 

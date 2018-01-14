@@ -41,10 +41,10 @@ class Navigations extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'label' => 'Label',
+            'label' => 'Название',
             'url' => 'Url',
-            'own' => 'Own',
-            'alias' => 'Alias',
+            'own' => 'Принадлежность',
+            'alias' => 'Псевдоним',
         ];
     }
 

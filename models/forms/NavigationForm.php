@@ -54,4 +54,17 @@ class NavigationForm extends Model
         return false;
     }
 
+    /**
+     * @inheritdoc
+     */
+    public function attributeLabels()
+    {
+        return [
+            'label' => 'Название',
+            'url' => 'Url',
+            'own' => 'Чей?',
+            'alias' => 'Псевдоним',
+        ];
+    }
+
 }

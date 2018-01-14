@@ -12,6 +12,8 @@ use app\models\Profiles;
 use yii\base\Exception;
 use app\models\forms\NavigationForm;
 use app\models\Navigations;
+use app\models\forms\SectionForm;
+use app\models\Sections;
 
 class AdminController extends Controller
 {
@@ -221,6 +223,35 @@ class AdminController extends Controller
         $model->own = $navigation_data->own;
 
         return $this->render('navigation/navigation-edit', ['model' => $model]);
+    }
+
+    public function actionSection()
+    {
+        if(!Users::isAdmin(Yii::$app->user->id))
+        {
+            return $this->redirect(['http-errors/403']);
+        }
+
+        $sections = Sections::find()->where(['sid' => null])->all();
+
+        return $this->render('section/section', ['sections' => $sections]);
+    }
+
+    public function actionSectionCreate($id = false)
+    {
+        if(!Users::isAdmin(Yii::$app->user->id))
+        {
+            return $this->redirect(['http-errors/403']);
+        }
+
+        $model = new SectionForm();
+
+        if ($model->load(Yii::$app->request->post()) && $model->create($id)) {
+          Yii::$app->getSession()->setFlash('success-create', 'Раздел успешно создан!');
+          return $this->redirect(['admin/section']);
+        }
+
+        return $this->render('section/section-create', ['model' => $model]);
     }
 
 }

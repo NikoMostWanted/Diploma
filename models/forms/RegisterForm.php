@@ -86,4 +86,19 @@ class RegisterForm extends Model
         return false;
     }
 
+    /**
+     * @inheritdoc
+     */
+    public function attributeLabels()
+    {
+        return [
+            'username' => 'Логин',
+            'firstname' => 'Имя',
+            'lastname' => 'Фамилия',
+            'password' => 'Пароль',
+            'role__id' => 'Роль',
+            'phone' => 'Телефон',
+        ];
+    }
+
 }
