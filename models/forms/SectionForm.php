@@ -33,7 +33,7 @@ class SectionForm extends Model
             $model->name = $data['SectionForm']['name'];
             if($id == false)
             {
-                $model->sid = null;
+                $model->sid = 0;
             }
             else
             {

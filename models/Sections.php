@@ -3,6 +3,7 @@
 namespace app\models;
 
 use Yii;
+use yii\helpers\Html;
 
 /**
  * This is the model class for table "sections".
@@ -48,22 +49,46 @@ class Sections extends \yii\db\ActiveRecord
 
     public static function getStructure()
     {
-        $id = array(null);
-        $data = array();
-        $i = 1;
-        while(!empty($id))
+        $sections = self::find()->all();
+        $cats = array();
+        foreach($sections as $section)
         {
-            $sections = self::find()->where(['sid' => $id[0]])->all();
-            $id = [];
-            foreach($sections as $section)
-            {
-                $id[] = $section->id;
-                $data[$section->id] = array('id' => $section->id, 'name' => $section->name, 'alias' => $section->alias, 'deep' => $i);
-            }
-            $i++;
-
+            $cats[$section->sid][$section->id] = $section;
         }
 
-        return $data;
+        return $cats;
+    }
+
+    public static function build_tree($cats, $sid, $only_parent = false)
+    {
+        if(is_array($cats) && isset($cats[$sid]))
+        {
+            $tree = '<ul>';
+            if($only_parent == false)
+            {
+                foreach($cats[$sid] as $cat)
+                {
+                    $tree .= '<li>'.$cat['name'].' '.$cat['alias'];
+                    $tree .= Html::a('<span class="glyphicon glyphicon-pencil"></span>', ['admin/section-edit', 'id' => $cat['id']], ['class' => 'btn btn-success']);
+                    $tree .= Html::a('<span class="glyphicon glyphicon-remove"></span>', ['admin/section-delete', 'id' => $cat['id']], ['class' => 'btn btn-danger']);
+                    $tree .= Html::a('<span class="glyphicon glyphicon-plus"></span>', ['admin/section-create', 'id' => $cat['id']], ['class' => 'btn btn-success']);
+                    $tree .= self::build_tree($cats,$cat['id']);
+                    $tree .= '</li>';
+                }
+            }
+            elseif(is_numeric($only_parent))
+            {
+                $cat = $cats[$sid][$only_parent];
+                $tree .= '<li>'.$cat['name'].' #'.$cat['alias'];
+                $tree .= Html::a('<span class="glyphicon glyphicon-pencil"></span>', ['admin/section-edit', 'id' => $cat['id']], ['class' => 'btn btn-success']);
+                $tree .= Html::a('<span class="glyphicon glyphicon-remove"></span>', ['admin/section-delete', 'id' => $cat['id']], ['class' => 'btn btn-danger']);
+                $tree .= Html::a('<span class="glyphicon glyphicon-plus"></span>', ['admin/section-create', 'id' => $cat['id']], ['class' => 'btn btn-success']);
+                $tree .=  self::build_tree($cats,$cat['id']);
+                $tree .= '</li>';
+            }
+            $tree .= '</ul>';
+        }
+        else return null;
+        return $tree;
     }
 }

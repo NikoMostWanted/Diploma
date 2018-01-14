@@ -14,12 +14,4 @@
 <?= Html::a('Создать новый раздел', ['admin/section-create'], ['class' => 'btn btn-success']); ?>
 <br/><br/>
 
-<?php foreach (Sections::getStructure() as $section): ?>
-    <?= $section['alias']; ?>
-    <?= $section['name']; ?>
-    <?= $section['deep']; ?>
-    <?= Html::a('<span class="glyphicon glyphicon-pencil"></span>', ['admin/section-edit', 'id' => $section['id']], ['class' => 'btn btn-success']); ?>
-    <?= Html::a('<span class="glyphicon glyphicon-remove"></span>', ['admin/section-delete', 'id' => $section['id']], ['class' => 'btn btn-danger']); ?>
-    <?= Html::a('<span class="glyphicon glyphicon-plus"></span>', ['admin/section-create', 'id' => $section['id']], ['class' => 'btn btn-success']); ?>
-    <br/>
-<?php endforeach; ?>
+<?= Sections::build_tree(Sections::getStructure(), 0); ?>
