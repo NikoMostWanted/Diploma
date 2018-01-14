@@ -49,6 +49,24 @@ class SectionForm extends Model
         return false;
     }
 
+    public function edit($id)
+    {
+        if ($this->validate())
+        {
+            $model = Sections::findOne($id);
+            $data = \Yii::$app->request->post();
+            $model->alias = $data['SectionForm']['alias'];
+            $model->name = $data['SectionForm']['name'];
+
+            if(!$model->save())
+            {
+                  throw new Exception('Ошибка редактирования данных раздела');
+            }
+            return true;
+        }
+        return false;
+    }
+
     /**
      * @inheritdoc
      */

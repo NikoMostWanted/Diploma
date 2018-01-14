@@ -254,4 +254,56 @@ class AdminController extends Controller
         return $this->render('section/section-create', ['model' => $model]);
     }
 
+    public function actionSectionEdit($id = false)
+    {
+        if(!Users::isAdmin(Yii::$app->user->id))
+        {
+            return $this->redirect(['http-errors/403']);
+        }
+
+        $model = new SectionForm();
+
+        if ($model->load(Yii::$app->request->post()) && $model->edit($id)) {
+            Yii::$app->getSession()->setFlash('success-edit', 'Раздел успешно редактирован!');
+            return $this->redirect(['admin/section']);
+        }
+
+        $section_data = Sections::findOne($id);
+        $model->name = $section_data->name;
+        $model->alias = $section_data->alias;
+
+        return $this->render('section/section-edit', ['model' => $model]);
+    }
+
+    public function actionSectionDelete($id)
+    {
+        if(!Users::isAdmin(Yii::$app->user->id))
+        {
+            return $this->redirect(['http-errors/403']);
+        }
+
+        $sections = Sections::find()->where(['sid' => $id])->all();
+        if($sections != null)
+        {
+            Yii::$app->getSession()->setFlash('error-delete', 'Раздел не может быть удален, так как имеет зависимости!');
+            return $this->redirect(['admin/section']);
+        }
+
+        try
+        {
+            if(!Yii::$app->db->createCommand()->delete('sections', ['id' => $id])->execute())
+            {
+                throw new Exception('Ошибка удаления данных навигации');
+            }
+
+            Yii::$app->getSession()->setFlash('success-delete', 'Раздел успешно удален!');
+        }
+        catch (Exception $e)
+        {
+            print $e->getMessage();
+        }
+
+        return $this->redirect(['admin/section']);
+    }
+
 }
