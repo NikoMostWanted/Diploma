@@ -26,4 +26,4 @@
 <?= Html::a('Создать новый раздел', ['admin/section-create'], ['class' => 'btn btn-success']); ?>
 <br/><br/>
 
-<?= Sections::build_tree(Sections::getStructure(), 0); ?>
+<?= Sections::build_tree_section(Sections::getStructure(), 0); ?>

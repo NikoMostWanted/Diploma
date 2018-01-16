@@ -83,6 +83,34 @@ class Users extends \yii\db\ActiveRecord implements \yii\web\IdentityInterface
         }
     }
 
+    public static function isTeacher($id)
+    {
+        $user = self::findOne($id);
+
+        if($user->role->name == 'Teacher')
+        {
+            return true;
+        }
+        else
+        {
+          return false;
+        }
+    }
+
+    public static function isStudent($id)
+    {
+        $user = self::findOne($id);
+
+        if($user->role->name == 'Student')
+        {
+            return true;
+        }
+        else
+        {
+          return false;
+        }
+    }
+
     /**
      * Finds user by username
      *

@@ -218,6 +218,7 @@ class AdminController extends Controller
         }
 
         $navigation_data = Navigations::findOne($id);
+        $model->alias = $navigation_data->alias;
         $model->label = $navigation_data->label;
         $model->url = $navigation_data->url;
         $model->own = $navigation_data->own;

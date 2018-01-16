@@ -9,6 +9,11 @@ use yii\web\Response;
 use yii\filters\VerbFilter;
 use app\models\forms\LoginForm;
 use app\models\ContactForm;
+use app\models\Users;
+use app\models\forms\LessonForm;
+use app\models\Lessons;
+use app\models\Locations;
+use yii\data\Pagination;
 
 class SiteController extends Controller
 {
@@ -123,5 +128,69 @@ class SiteController extends Controller
     public function actionAbout()
     {
         return $this->render('about');
+    }
+
+    public function actionSection($id)
+    {
+        if(Yii::$app->user->isGuest)
+        {
+            return $this->redirect(['http-errors/403']);
+        }
+
+        $countLocations = Locations::find()->where(['section__id' => $id])->count();
+        $pages = new Pagination(['totalCount' => $countLocations, 'pageSize' => Yii::$app->params['page']]);
+        $pages->pageSizeParam = false;
+
+        $locations = Locations::find()->where(['section__id' => $id])->offset($pages->offset)
+          ->limit($pages->limit)
+          ->all();
+
+        return $this->render('section', ['id' => $id, 'locations' => $locations, 'pages' => $pages]);
+    }
+
+    public function actionLesson()
+    {
+        if(Yii::$app->user->isGuest || Users::isStudent(Yii::$app->user->id))
+        {
+            return $this->redirect(['http-errors/403']);
+        }
+
+        $countLessons = Lessons::find()->where(['user__id' => Yii::$app->user->id])->count();
+
+        $pages = new Pagination(['totalCount' => $countLessons, 'pageSize' => Yii::$app->params['page']]);
+
+        $pages->pageSizeParam = false;
+        $model = Lessons::find()->where(['user__id' => Yii::$app->user->id])->offset($pages->offset)
+          ->limit($pages->limit)
+          ->all();
+
+        return $this->render('lesson/lesson', ['model' => $model, 'pages' => $pages]);
+    }
+
+    public function actionLessonCreate()
+    {
+        if(Yii::$app->user->isGuest || Users::isStudent(Yii::$app->user->id))
+        {
+            return $this->redirect(['http-errors/403']);
+        }
+
+        $model = new LessonForm();
+
+        if ($model->load(Yii::$app->request->post()) && $model->create()) {
+          Yii::$app->getSession()->setFlash('success-create', 'Урок успешно создан!');
+          return $this->redirect(['site/lesson']);
+        }
+
+        return $this->render('lesson/lesson-create', ['model' => $model]);
+    }
+
+    public function actionLessonView($id)
+    {
+        if(Yii::$app->user->isGuest)
+        {
+            return $this->redirect(['http-errors/403']);
+        }
+
+        return $this->render('lesson/lesson-view');
     }
 }

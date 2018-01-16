@@ -59,7 +59,7 @@ class Sections extends \yii\db\ActiveRecord
         return $cats;
     }
 
-    public static function build_tree($cats, $sid)
+    public static function build_tree_section($cats, $sid)
     {
         if(is_array($cats) && isset($cats[$sid]))
         {
@@ -71,7 +71,48 @@ class Sections extends \yii\db\ActiveRecord
                 $tree .= Html::a('<span class="glyphicon glyphicon-pencil"></span>', ['admin/section-edit', 'id' => $cat['id']], ['class' => 'btn btn-success']);
                 $tree .= Html::a('<span class="glyphicon glyphicon-remove"></span>', ['admin/section-delete', 'id' => $cat['id']], ['class' => 'btn btn-danger']);
                 $tree .= Html::a('<span class="glyphicon glyphicon-plus"></span>', ['admin/section-create', 'id' => $cat['id']], ['class' => 'btn btn-success']);
-                $tree .= self::build_tree($cats,$cat['id']);
+                $tree .= self::build_tree_section($cats,$cat['id']);
+                $tree .= '</li>';
+            }
+
+            $tree .= '</ul>';
+        }
+        else return null;
+        return $tree;
+    }
+
+    public static function build_tree_site_section($cats, $sid)
+    {
+        if(is_array($cats) && isset($cats[$sid]))
+        {
+            $tree = '<ul>';
+
+            foreach($cats[$sid] as $cat)
+            {
+                $tree .= '<li>';
+                $tree .= Html::a($cat['name'], ['site/section', 'id' => $cat['id']]);
+                $tree .= self::build_tree_site_section($cats,$cat['id']);
+                $tree .= '</li>';
+            }
+
+            $tree .= '</ul>';
+        }
+        else return null;
+        return $tree;
+    }
+
+    public static function build_tree_site_lesson($cats, $sid)
+    {
+        if(is_array($cats) && isset($cats[$sid]))
+        {
+            $tree = '<ul>';
+
+            foreach($cats[$sid] as $cat)
+            {
+                $tree .= '<li>';
+                $tree .= Html::checkbox('location[]', false, ['value' => $cat['id']]);
+                $tree .= '<span>'.$cat['name'].'</span>';
+                $tree .= self::build_tree_site_lesson($cats,$cat['id']);
                 $tree .= '</li>';
             }
 

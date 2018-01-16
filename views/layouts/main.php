@@ -68,6 +68,15 @@ AppAsset::register($this);
                 )
             ],
         ]);
+      elseif($nav->alias == 'Lessons'):
+        echo Nav::widget([
+            'options' => ['class' => 'navbar-nav navbar-right'],
+            'items' => [
+                (!Yii::$app->user->isGuest && (Users::isAdmin(Yii::$app->user->id) || Users::isTeacher(Yii::$app->user->id)))  ? (
+                    ['label' => $nav->label, 'url' => [$nav->url]]
+                ) : ('')
+            ],
+        ]);
       else:
         echo Nav::widget([
             'options' => ['class' => 'navbar-nav navbar-right'],
