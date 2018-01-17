@@ -17,6 +17,7 @@ class LessonForm extends Model
     public $name;
     public $text;
     public $imageFiles;
+    public $docsFiles;
 
     /**
      * @return array the validation rules.
@@ -26,12 +27,14 @@ class LessonForm extends Model
         return [
             [['description', 'name', 'text'], 'required'],
             [['imageFiles'], 'file', 'skipOnEmpty' => true, 'extensions' => 'png, jpg', 'maxFiles' => 4],
+            [['docsFiles'], 'file', 'skipOnEmpty' => true, 'extensions' => 'doc, docx', 'maxFiles' => 4],
         ];
     }
 
     public function create($id = false)
     {
         $this->imageFiles = UploadedFile::getInstances($this, 'imageFiles');
+        $this->docsFiles = UploadedFile::getInstances($this, 'docsFiles');
         if ($this->validate())
         {
             $model = new Lessons();
@@ -82,7 +85,22 @@ class LessonForm extends Model
                 $name_file = $file->name;
             }
 
-            foreach ($this->imageFiles as $file) {
+            foreach ($this->imageFiles as $file)
+            {
+                $name_file++;
+                $file->saveAs('uploads/' . $name_file . '.' . $file->extension);
+
+                $new_file = new Files();
+                $new_file->name = $name_file;
+                $new_file->lesson__id = $model->id;
+                $new_file->href = $name_file . '.' . $file->extension;
+                if(!$new_file->save())
+                {
+                    throw new Exception('Ошибка сохранения данных файла');
+                }
+            }
+            foreach($this->docsFiles as $file)
+            {
                 $name_file++;
                 $file->saveAs('uploads/' . $name_file . '.' . $file->extension);
 
@@ -109,7 +127,8 @@ class LessonForm extends Model
             'name' => 'Название',
             'description' => 'Описание',
             'text' => 'Текст',
-            'imageFiles' => 'Картинки'
+            'imageFiles' => 'Картинки',
+            'docsFiles' => 'MS Office документы'
         ];
     }
 

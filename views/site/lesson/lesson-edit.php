@@ -33,6 +33,7 @@ $this->registerCssFile(Yii::$app->request->baseUrl.'/css/lesson/create.css');
         <?= Sections::build_tree_site_lesson(Sections::getStructure(), 0, $lesson__id); ?>
 
         <?= $form->field($model, 'imageFiles[]')->fileInput(['multiple' => true, 'accept' => 'image/*']) ?>
+        <?= $form->field($model, 'docsFiles[]')->fileInput(['multiple' => true, 'accept' => '.doc,.docx']) ?>
         <div class="row">
             <span id="output"></span>
         </div>
@@ -50,8 +51,14 @@ $this->registerCssFile(Yii::$app->request->baseUrl.'/css/lesson/create.css');
     <div class="row">
         <span id="save">
           <?php foreach($files as $file): ?>
-              <img class="img-thumbnail" id="img-<?= $file->id ?>" src="<?= Yii::$app->request->baseUrl.'/uploads/'.$file->href ?>">
-              <button class="img-<?= $file->id ?>" onclick="deleteImage(<?= $file->id; ?>)">Удалить</button>
+              <?php if(strripos($file->href, 'jpg') == true || strripos($file->href, 'png') == true): ?>
+                <img class="img-thumbnail" id="img-<?= $file->id ?>" src="<?= Yii::$app->request->baseUrl.'/uploads/'.$file->href ?>">
+                <button class="img-<?= $file->id ?>" onclick="deleteImage(<?= $file->id; ?>)">Удалить</button>
+              <?php endif; ?>
+              <?php if(strripos($file->href, 'doc') == true || strripos($file->href, 'docx') == true): ?>
+                  <a id="file-<?= $file->id ?>" href="<?= Yii::$app->request->baseUrl.'/uploads/'.$file->href ?>" download><?= $file->href; ?></a>
+                  <button class="file-<?= $file->id ?>" onclick="deleteFile(<?= $file->id; ?>)">Удалить</button>
+              <?php endif; ?>
           <?php endforeach; ?>
         </span>
     </div>

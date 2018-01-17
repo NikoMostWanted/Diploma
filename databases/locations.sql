@@ -1,3 +1,5 @@
+/* Таблица `locations` имеет связь с таблицей `sections` и `lessons`, её нужно установить после установки таблиц `sections` и `lessons` */
+
 CREATE TABLE `locations` (
     `id` int(11) NOT NULL AUTO_INCREMENT,
     `section__id` int(11) NOT NULL,

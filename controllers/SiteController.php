@@ -15,6 +15,7 @@ use app\models\Lessons;
 use app\models\Locations;
 use yii\data\Pagination;
 use app\models\Files;
+use app\models\Subscribers;
 
 class SiteController extends Controller
 {
@@ -224,7 +225,21 @@ class SiteController extends Controller
         $model = Lessons::findOne($id);
         $files = Files::find()->where(['lesson__id' => $id])->all();
 
-        return $this->render('lesson/lesson-view', ['model' => $model, 'files' => $files]);
+        $subscriber = Subscribers::find()->where(['lesson__id' => $id, 'user__id' => Yii::$app->user->id])->one();
+
+        if(Yii::$app->request->post() != null)
+        {
+              $subscribe = new Subscribers();
+              $subscribe->lesson__id = $id;
+              $subscribe->user__id = Yii::$app->user->id;
+
+              if(!$subscribe->save())
+              {
+                  throw new Exception('Ошибка при создании подписки!');
+              }
+        }
+
+        return $this->render('lesson/lesson-view', ['model' => $model, 'files' => $files, 'subscriber' => $subscriber]);
     }
 
     public function actionDeleteImage()
@@ -235,6 +250,22 @@ class SiteController extends Controller
             $id= explode(":", $data['id']);
 
             Files::deleteImage($id);
+
+            \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+            return [
+                'answer' => $id,
+            ];
+        }
+    }
+
+    public function actionDeleteFile()
+    {
+        if (Yii::$app->request->isAjax)
+        {
+            $data = Yii::$app->request->post();
+            $id= explode(":", $data['id']);
+
+            Files::deleteFile($id);
 
             \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
             return [

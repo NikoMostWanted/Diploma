@@ -5,23 +5,23 @@ namespace app\models;
 use Yii;
 
 /**
- * This is the model class for table "files".
+ * This is the model class for table "subscribers".
  *
  * @property integer $id
- * @property integer $name
  * @property integer $lesson__id
- * @property string $href
+ * @property integer $user__id
  *
  * @property Lessons $lesson
+ * @property Users $user
  */
-class Files extends \yii\db\ActiveRecord
+class Subscribers extends \yii\db\ActiveRecord
 {
     /**
      * @inheritdoc
      */
     public static function tableName()
     {
-        return 'files';
+        return 'subscribers';
     }
 
     /**
@@ -30,16 +30,10 @@ class Files extends \yii\db\ActiveRecord
     public function rules()
     {
         return [
-            [['lesson__id'], 'required'],
-            [['lesson__id', 'name'], 'integer'],
-            [['href'], 'string', 'max' => 255],
+            [['lesson__id', 'user__id'], 'integer'],
             [['lesson__id'], 'exist', 'skipOnError' => true, 'targetClass' => Lessons::className(), 'targetAttribute' => ['lesson__id' => 'id']],
+            [['user__id'], 'exist', 'skipOnError' => true, 'targetClass' => Users::className(), 'targetAttribute' => ['user__id' => 'id']],
         ];
-    }
-
-    public function afterDelete()
-    {
-        unlink(Yii::getAlias('@webroot').'/uploads/'.$this->href);
     }
 
     /**
@@ -49,9 +43,8 @@ class Files extends \yii\db\ActiveRecord
     {
         return [
             'id' => 'ID',
-            'name' => 'Name',
             'lesson__id' => 'Lesson  ID',
-            'href' => 'Href',
+            'user__id' => 'User  ID',
         ];
     }
 
@@ -63,17 +56,16 @@ class Files extends \yii\db\ActiveRecord
         return $this->hasOne(Lessons::className(), ['id' => 'lesson__id']);
     }
 
-    public static function deleteImage($id)
+    /**
+     * @return \yii\db\ActiveQuery
+     */
+    public function getUser()
     {
-        $file = self::findOne($id);
-        $href = $file->href;
-        $file->delete();
+        return $this->hasOne(Users::className(), ['id' => 'user__id']);
     }
 
-    public static function deleteFile($id)
+    public static function getByUser($id)
     {
-        $file = self::findOne($id);
-        $href = $file->href;
-        $file->delete();
+        return self::find()->where(['user__id' => $id])->all();
     }
 }

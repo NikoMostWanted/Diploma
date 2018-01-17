@@ -33,8 +33,12 @@ $this->registerCssFile(Yii::$app->request->baseUrl.'/css/lesson/create.css');
         <?= Sections::build_tree_site_lesson(Sections::getStructure(), 0); ?>
 
         <?= $form->field($model, 'imageFiles[]')->fileInput(['multiple' => true, 'accept' => 'image/*']) ?>
+        <?= $form->field($model, 'docsFiles[]')->fileInput(['multiple' => true, 'accept' => '.doc,.docx']) ?>
         <div class="row">
             <span id="output"></span>
+        </div>
+        <div class="row">
+            <span id="output_docs"></span>
         </div>
 
         <br/>
