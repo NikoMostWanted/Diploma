@@ -14,6 +14,7 @@ use app\models\forms\LessonForm;
 use app\models\Lessons;
 use app\models\Locations;
 use yii\data\Pagination;
+use app\models\Files;
 
 class SiteController extends Controller
 {
@@ -184,6 +185,35 @@ class SiteController extends Controller
         return $this->render('lesson/lesson-create', ['model' => $model]);
     }
 
+    public function actionLessonEdit($id)
+    {
+        if(Yii::$app->user->isGuest || Users::isStudent(Yii::$app->user->id))
+        {
+            return $this->redirect(['http-errors/403']);
+        }
+
+        $model = new LessonForm();
+
+        if ($model->load(Yii::$app->request->post()) && $model->create($id)) {
+          Yii::$app->getSession()->setFlash('success-create', 'Урок успешно редактирован!');
+          return $this->redirect(['site/lesson']);
+        }
+
+        $lesson = Lessons::findOne($id);
+
+        if($lesson->user__id != Yii::$app->user->id)
+        {
+            return $this->redirect(['http-errors/403']);
+        }
+        $model->name = $lesson->name;
+        $model->description = $lesson->description;
+        $model->text = $lesson->text;
+
+        $files = Files::find()->where(['lesson__id' => $lesson->id])->all();
+
+        return $this->render('lesson/lesson-edit', ['model' => $model, 'files' => $files, 'lesson__id' => $id]);
+    }
+
     public function actionLessonView($id)
     {
         if(Yii::$app->user->isGuest)
@@ -191,6 +221,60 @@ class SiteController extends Controller
             return $this->redirect(['http-errors/403']);
         }
 
-        return $this->render('lesson/lesson-view');
+        $model = Lessons::findOne($id);
+        $files = Files::find()->where(['lesson__id' => $id])->all();
+
+        return $this->render('lesson/lesson-view', ['model' => $model, 'files' => $files]);
+    }
+
+    public function actionDeleteImage()
+    {
+        if (Yii::$app->request->isAjax)
+        {
+            $data = Yii::$app->request->post();
+            $id= explode(":", $data['id']);
+
+            Files::deleteImage($id);
+
+            \Yii::$app->response->format = \yii\web\Response::FORMAT_JSON;
+            return [
+                'answer' => $id,
+            ];
+        }
+    }
+
+    public function actionLessonDelete($id)
+    {
+        $transaction = Yii::$app->db->beginTransaction();
+        try
+        {
+          if(!Yii::$app->db->createCommand()->delete('locations', ['lessons__id' => $id])->execute())
+          {
+              throw new Exception('Ошибка удаления данных локаций');
+          }
+
+          $files = Files::find()->where(['lesson__id' => $id])->all();
+          foreach($files as $file)
+          {
+              if(!$file->delete())
+              {
+                  throw new Exception('Ошибка удаления данных файлов');
+              }
+          }
+
+          if(!Yii::$app->db->createCommand()->delete('lessons', ['id' => $id])->execute())
+          {
+              throw new Exception('Ошибка удаления данных урока');
+          }
+
+          $transaction->commit();
+          Yii::$app->getSession()->setFlash('success-delete', 'Урок успешно удален!');
+        }
+        catch (Exception $e)
+        {
+            $transaction->rollBack();
+        }
+
+        return $this->redirect(['site/lesson']);
     }
 }

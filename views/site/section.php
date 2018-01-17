@@ -10,9 +10,9 @@
 
 <?= Sections::build_tree_site_section(Sections::getStructure(), $id); ?>
 
-<p>Уроки</p>
+
 <?php foreach($locations as $location): ?>
-  <?= Html::a($location->lessons->name, ['site/lesson-view', 'id' => $location->lessons->id]); ?>
+  <?= Html::a($location->lessons->name.'('.$location->lessons->user->username.')', ['site/lesson-view', 'id' => $location->lessons->id]); ?>
 <?php endforeach; ?>
 
 <?php

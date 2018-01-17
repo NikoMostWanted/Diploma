@@ -21,4 +21,21 @@ function handleFileSelect(evt) {
         reader.readAsDataURL(f);
     }
 }
+
+function deleteImage(id)
+{
+    $.ajax({
+       url: "/site/delete-image",
+       type: 'post',
+       data: {
+                 id : id
+             },
+       success: function (data) {
+         var image_x = document.getElementById('img-'+data.answer);
+         image_x.parentNode.removeChild(image_x);
+         $('.img-'+data.answer).hide();
+       }
+  });
+}
+
 document.getElementById('lessonform-imagefiles').addEventListener('change', handleFileSelect, false);

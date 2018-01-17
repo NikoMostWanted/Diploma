@@ -35,6 +35,10 @@ class LessonForm extends Model
         if ($this->validate())
         {
             $model = new Lessons();
+            if($id != false)
+            {
+              $model = Lessons::findOne($id);
+            }
             $data = \Yii::$app->request->post();
 
             $model->user__id = Yii::$app->user->id;
@@ -47,20 +51,32 @@ class LessonForm extends Model
                  throw new Exception('Ошибка сохранения данных урока');
             }
 
-            foreach($data['location'] as $loc)
+            if(isset($data['location']))
             {
-                $location = new Locations();
-                $location->lessons__id = $model->id;
-                $location->section__id = $loc;
-
-                if(!$location->save())
+                $for_delete = Locations::find()->where(['lessons__id' => $model->id])->all();
+                if($for_delete != null)
                 {
-                     throw new Exception('Ошибка сохранения данных локаций');
+                    if(!Locations::deleteAll(['lessons__id' => $model->id]))
+                    {
+                        throw new Exception('Ошибка удаления данных локаций');
+                    }
+                }
+
+                foreach($data['location'] as $loc)
+                {
+                    $location = new Locations();
+                    $location->lessons__id = $model->id;
+                    $location->section__id = $loc;
+
+                    if(!$location->save())
+                    {
+                         throw new Exception('Ошибка сохранения данных локаций');
+                    }
                 }
             }
 
             $file = Files::find()->orderBy(['name' => SORT_DESC])->one();
-            $name_file = 1; // ID file
+            $name_file = 0; // ID file
             if($file != NULL)
             {
                 $name_file = $file->name;

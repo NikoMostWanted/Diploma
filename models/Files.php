@@ -37,6 +37,11 @@ class Files extends \yii\db\ActiveRecord
         ];
     }
 
+    public function afterDelete()
+    {
+        unlink(Yii::getAlias('@webroot').'/uploads/'.$this->href);
+    }
+
     /**
      * @inheritdoc
      */
@@ -56,5 +61,12 @@ class Files extends \yii\db\ActiveRecord
     public function getLesson()
     {
         return $this->hasOne(Lessons::className(), ['id' => 'lesson__id']);
+    }
+
+    public static function deleteImage($id)
+    {
+        $file = self::findOne($id);
+        $href = $file->href;
+        $file->delete();
     }
 }

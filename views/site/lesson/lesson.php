@@ -11,6 +11,14 @@ $this->params['breadcrumbs'][] = $this->title;
     <div class="alert alert-success"><?= Yii::$app->session->getFlash('success-create'); ?></div>
 <? endif; ?>
 
+<? if(Yii::$app->session->hasFlash('success-edit')): ?>
+    <div class="alert alert-success"><?= Yii::$app->session->getFlash('success-edit'); ?></div>
+<? endif; ?>
+
+<? if(Yii::$app->session->hasFlash('success-delete')): ?>
+    <div class="alert alert-success"><?= Yii::$app->session->getFlash('success-delete'); ?></div>
+<? endif; ?>
+
 <?= Html::a('Создать новый урок', ['site/lesson-create'], ['class' => 'btn btn-success']); ?>
 
 <table class="table">
@@ -27,8 +35,8 @@ $this->params['breadcrumbs'][] = $this->title;
         <td><?= $val->name; ?></td>
         <td><?= $val->description; ?></td>
         <td>
-          <?= Html::a('<span class="glyphicon glyphicon-pencil"></span>', ['admin/lesson-edit', 'id' => $val->id], ['class' => 'btn btn-success']); ?>
-          <?= Html::a('<span class="glyphicon glyphicon-remove"></span>', ['admin/lesson-delete', 'id' => $val->id], ['class' => 'btn btn-danger']); ?>
+          <?= Html::a('<span class="glyphicon glyphicon-pencil"></span>', ['site/lesson-edit', 'id' => $val->id], ['class' => 'btn btn-success']); ?>
+          <?= Html::a('<span class="glyphicon glyphicon-remove"></span>', ['site/lesson-delete', 'id' => $val->id], ['class' => 'btn btn-danger']); ?>
         </td>
       </tr>
     <?php endforeach; ?>

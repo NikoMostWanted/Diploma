@@ -101,21 +101,27 @@ class Sections extends \yii\db\ActiveRecord
         return $tree;
     }
 
-    public static function build_tree_site_lesson($cats, $sid)
+    public static function build_tree_site_lesson($cats, $sid, $lesson__id = false)
     {
         if(is_array($cats) && isset($cats[$sid]))
         {
             $tree = '<ul>';
-
             foreach($cats[$sid] as $cat)
             {
                 $tree .= '<li>';
-                $tree .= Html::checkbox('location[]', false, ['value' => $cat['id']]);
+                if($lesson__id != false)
+                {
+                    $location = Locations::find()->where(['lessons__id' => $lesson__id, 'section__id' => $cat['id']])->one();
+                    $tree .= Html::checkbox('location[]', $location != null ? true : false, ['value' => $cat['id']]);
+                }
+                else
+                {
+                    $tree .= Html::checkbox('location[]', false, ['value' => $cat['id']]);
+                }
                 $tree .= '<span>'.$cat['name'].'</span>';
-                $tree .= self::build_tree_site_lesson($cats,$cat['id']);
+                $tree .= self::build_tree_site_lesson($cats,$cat['id'],$lesson__id);
                 $tree .= '</li>';
             }
-
             $tree .= '</ul>';
         }
         else return null;
