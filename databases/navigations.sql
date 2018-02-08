@@ -18,4 +18,5 @@ INSERT INTO `navigations`(`alias`, `label`, `url`, `own`) VALUES
 ('AdminPanel', 'Админ панель', 'admin/index', 2),
 ('Lessons', 'Мои уроки', 'site/lesson', 2),
 ('Contacts', 'Контакты', 'site/contact', 2),
-('About', 'Про нас', 'site/about', 2);
+('About', 'Про нас', 'site/about', 2),
+('Courses', 'Курсы', 'site/courses', 2);

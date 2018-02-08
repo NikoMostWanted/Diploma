@@ -12,6 +12,7 @@ class SectionForm extends Model
 
     public $alias;
     public $name;
+    public $description;
 
     /**
      * @return array the validation rules.
@@ -19,7 +20,7 @@ class SectionForm extends Model
     public function rules()
     {
         return [
-            [['alias', 'name'], 'required'],
+            [['alias', 'name', 'description'], 'required'],
         ];
     }
 
@@ -31,6 +32,7 @@ class SectionForm extends Model
             $data = \Yii::$app->request->post();
             $model->alias = $data['SectionForm']['alias'];
             $model->name = $data['SectionForm']['name'];
+            $model->description = $data['SectionForm']['description'];
             if($id == false)
             {
                 $model->sid = 0;
@@ -57,6 +59,7 @@ class SectionForm extends Model
             $data = \Yii::$app->request->post();
             $model->alias = $data['SectionForm']['alias'];
             $model->name = $data['SectionForm']['name'];
+            $model->description = $data['SectionForm']['description'];
 
             if(!$model->save())
             {
@@ -75,6 +78,7 @@ class SectionForm extends Model
         return [
             'alias' => 'Псевдоним',
             'name' => 'Название',
+            'description' => 'Описание'
         ];
     }
 

@@ -1,8 +1,8 @@
 <?php
 
 /* @var $this yii\web\View */
-use app\models\Sections;
-use app\models\Subscribers;
+/*use app\models\Sections;
+use app\models\Subscribers;*/
 use yii\helpers\Html;
 use yii\bootstrap\Carousel;
 

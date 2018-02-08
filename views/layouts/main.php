@@ -51,6 +51,12 @@ AppAsset::register($this);
                 <?= Html::a($nav->label, [$nav->url], ['class' => 'nav-link']) ?>
               </li>
             <?php endif; ?>
+          <?php elseif($nav->alias == 'Courses'): ?>
+            <?php if(!Yii::$app->user->isGuest): ?>
+              <li class="nav-item">
+                <?= Html::a($nav->label, [$nav->url], ['class' => 'nav-link']) ?>
+              </li>
+            <?php endif; ?>
           <?php elseif($nav->alias != 'Authorization'): ?>
             <li class="nav-item">
               <?= Html::a($nav->label, [$nav->url], ['class' => 'nav-link']) ?>
@@ -82,7 +88,7 @@ AppAsset::register($this);
         ]) ?>
         <?= Alert::widget() ?>
         <?= $content ?>
-    
+
 </div>
 
 <footer class="footer bg-dark">

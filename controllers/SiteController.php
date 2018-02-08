@@ -308,4 +308,14 @@ class SiteController extends Controller
 
         return $this->redirect(['site/lesson']);
     }
+
+    public function actionCourses()
+    {
+        if(Yii::$app->user->isGuest)
+        {
+            return $this->redirect(['http-errors/403']);
+        }
+        
+        return $this->render('courses/courses');
+    }
 }

@@ -11,6 +11,7 @@ use yii\helpers\Html;
  * @property integer $id
  * @property string $alias
  * @property string $name
+ * @property string $description
  * @property integer $sid
  */
 class Sections extends \yii\db\ActiveRecord
@@ -43,6 +44,7 @@ class Sections extends \yii\db\ActiveRecord
             'id' => 'ID',
             'alias' => 'Alias',
             'name' => 'Name',
+            'description' => 'Description',
             'sid' => 'Sid',
         ];
     }
@@ -126,5 +128,11 @@ class Sections extends \yii\db\ActiveRecord
         }
         else return null;
         return $tree;
+    }
+
+    public static function get_zero_sections()
+    {
+        $sections = self::find()->where(['sid' => 0])->all();
+        return $sections;
     }
 }

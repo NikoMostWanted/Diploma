@@ -272,6 +272,7 @@ class AdminController extends Controller
         $section_data = Sections::findOne($id);
         $model->name = $section_data->name;
         $model->alias = $section_data->alias;
+        $model->description = $section_data->description;
 
         return $this->render('section/section-edit', ['model' => $model]);
     }

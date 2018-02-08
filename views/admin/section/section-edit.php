@@ -25,6 +25,7 @@ $this->params['breadcrumbs'][] = $this->title;
         <?= $form->field($model, 'alias')->textInput(['autofocus' => true]) ?>
 
         <?= $form->field($model, 'name')->textInput() ?>
+        <?= $form->field($model, 'description')->textArea() ?>
 
         <div class="form-group">
             <div class="col-lg-offset-1 col-lg-11">
