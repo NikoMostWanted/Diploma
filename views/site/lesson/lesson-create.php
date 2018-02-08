@@ -12,6 +12,13 @@ $this->registerCssFile(Yii::$app->request->baseUrl.'/css/lesson/create.css');
 
 ?>
 
+<style>
+  input[type="checkbox"]
+  {
+    -webkit-appearance:checkbox;
+  }
+</style>
+
 <div class="site-login">
     <h1><?= Html::encode($this->title) ?></h1>
 
