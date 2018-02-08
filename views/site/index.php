@@ -4,24 +4,205 @@
 use app\models\Sections;
 use app\models\Subscribers;
 use yii\helpers\Html;
+use yii\bootstrap\Carousel;
 
-$this->title = 'My Yii Application';
+$this->title = 'Диплом';
 ?>
 
-<div class="site-index">
-    <?php if(Yii::$app->user->isGuest): ?>
-      <div class="jumbotron">
-          <h1>Congratulations!</h1>
 
-          <p class="lead">Вы не авторизованы!</p>
+<div class="container-fluid p-0">
+      <?php echo Carousel::widget(['items' => [
+              [
+                  'content' => Html::img('@web/img/slider/1.jpeg', ['class' => 'd-block w-100']),
+                  'caption' => "<h2>Зародження ідеї проекту</h2>
+                  ". Html::img('@web/img/1.png')."
+                  <p>Автором ідеї створення web-орієнтованої платформи для дистанційної освіти є Давиденко Євген Олександрович - доцент (б.в.з.) кафедри інженерії програмного забезпечення, к.т.н. ЧНУ ім.Петра Могили. Він нам запропонував в якості магістерської наукової роботи дану тему. Спершу було проаналізовано сучасний стан \"дистанційного навчання\" в Україні та загалом. Потім нам вдалось чітко сформувати перелік переваг такої форми навчання. З розвитком ІКТ актуальність дистанційного навчання стрімко зростає, тому наша платформа - інвестиція в майбутнє. </p>
+                  <p class='text-center'>". Html::a('Більш детально', ['site/about'], ['class' => 'btn btn-lg btn-outline-warning']). "</p>",
+              ],
+              [
+                'content' => Html::img('@web/img/slider/2.jpeg', ['class' => 'd-block w-100']),
+                'caption' => "<h2>Зародження ідеї проекту</h2>
+                ". Html::img('@web/img/1.png')."
+                <p>Автором ідеї створення web-орієнтованої платформи для дистанційної освіти є Давиденко Євген Олександрович - доцент (б.в.з.) кафедри інженерії програмного забезпечення, к.т.н. ЧНУ ім.Петра Могили. Він нам запропонував в якості магістерської наукової роботи дану тему. Спершу було проаналізовано сучасний стан \"дистанційного навчання\" в Україні та загалом. Потім нам вдалось чітко сформувати перелік переваг такої форми навчання. З розвитком ІКТ актуальність дистанційного навчання стрімко зростає, тому наша платформа - інвестиція в майбутнє. </p>
+                <p class='text-center'>". Html::a('Більш детально', ['site/about'], ['class' => 'btn btn-lg btn-outline-warning']). "</p>",
+              ],
+              [
+                'content' => Html::img('@web/img/slider/3.jpeg', ['class' => 'd-block w-100']),
+                'caption' => "<h2>Зародження ідеї проекту</h2>
+                ". Html::img('@web/img/1.png')."
+                <p>Автором ідеї створення web-орієнтованої платформи для дистанційної освіти є Давиденко Євген Олександрович - доцент (б.в.з.) кафедри інженерії програмного забезпечення, к.т.н. ЧНУ ім.Петра Могили. Він нам запропонував в якості магістерської наукової роботи дану тему. Спершу було проаналізовано сучасний стан \"дистанційного навчання\" в Україні та загалом. Потім нам вдалось чітко сформувати перелік переваг такої форми навчання. З розвитком ІКТ актуальність дистанційного навчання стрімко зростає, тому наша платформа - інвестиція в майбутнє. </p>
+                <p class='text-center'>". Html::a('Більш детально', ['site/about'], ['class' => 'btn btn-lg btn-outline-warning']). "</p>",
+              ],
+              [
+                'content' => Html::img('@web/img/slider/4.jpeg', ['class' => 'd-block w-100']),
+                'caption' => "<h2>Зародження ідеї проекту</h2>
+                ". Html::img('@web/img/1.png')."
+                <p>Автором ідеї створення web-орієнтованої платформи для дистанційної освіти є Давиденко Євген Олександрович - доцент (б.в.з.) кафедри інженерії програмного забезпечення, к.т.н. ЧНУ ім.Петра Могили. Він нам запропонував в якості магістерської наукової роботи дану тему. Спершу було проаналізовано сучасний стан \"дистанційного навчання\" в Україні та загалом. Потім нам вдалось чітко сформувати перелік переваг такої форми навчання. З розвитком ІКТ актуальність дистанційного навчання стрімко зростає, тому наша платформа - інвестиція в майбутнє. </p>
+                <p class='text-center'>". Html::a('Більш детально', ['site/about'], ['class' => 'btn btn-lg btn-outline-warning']). "</p>",
+              ],
+              [
+                'content' => Html::img('@web/img/slider/5.jpeg', ['class' => 'd-block w-100']),
+                'caption' => "<h2>Зародження ідеї проекту</h2>
+                ". Html::img('@web/img/1.png')."
+                <p>Автором ідеї створення web-орієнтованої платформи для дистанційної освіти є Давиденко Євген Олександрович - доцент (б.в.з.) кафедри інженерії програмного забезпечення, к.т.н. ЧНУ ім.Петра Могили. Він нам запропонував в якості магістерської наукової роботи дану тему. Спершу було проаналізовано сучасний стан \"дистанційного навчання\" в Україні та загалом. Потім нам вдалось чітко сформувати перелік переваг такої форми навчання. З розвитком ІКТ актуальність дистанційного навчання стрімко зростає, тому наша платформа - інвестиція в майбутнє. </p>
+                <p class='text-center'>". Html::a('Більш детально', ['site/about'], ['class' => 'btn btn-lg btn-outline-warning']). "</p>",
+              ],
+              [
+                'content' => Html::img('@web/img/slider/6.jpeg', ['class' => 'd-block w-100']),
+                'caption' => "<h2>Зародження ідеї проекту</h2>
+                ". Html::img('@web/img/1.png')."
+                <p>Автором ідеї створення web-орієнтованої платформи для дистанційної освіти є Давиденко Євген Олександрович - доцент (б.в.з.) кафедри інженерії програмного забезпечення, к.т.н. ЧНУ ім.Петра Могили. Він нам запропонував в якості магістерської наукової роботи дану тему. Спершу було проаналізовано сучасний стан \"дистанційного навчання\" в Україні та загалом. Потім нам вдалось чітко сформувати перелік переваг такої форми навчання. З розвитком ІКТ актуальність дистанційного навчання стрімко зростає, тому наша платформа - інвестиція в майбутнє. </p>
+                <p class='text-center'>". Html::a('Більш детально', ['site/about'], ['class' => 'btn btn-lg btn-outline-warning']). "</p>",
+              ],
+              [
+                'content' => Html::img('@web/img/slider/7.jpeg', ['class' => 'd-block w-100']),
+                'caption' => "<h2>Зародження ідеї проекту</h2>
+                ". Html::img('@web/img/1.png')."
+                <p>Автором ідеї створення web-орієнтованої платформи для дистанційної освіти є Давиденко Євген Олександрович - доцент (б.в.з.) кафедри інженерії програмного забезпечення, к.т.н. ЧНУ ім.Петра Могили. Він нам запропонував в якості магістерської наукової роботи дану тему. Спершу було проаналізовано сучасний стан \"дистанційного навчання\" в Україні та загалом. Потім нам вдалось чітко сформувати перелік переваг такої форми навчання. З розвитком ІКТ актуальність дистанційного навчання стрімко зростає, тому наша платформа - інвестиція в майбутнє. </p>
+                <p class='text-center'>". Html::a('Більш детально', ['site/about'], ['class' => 'btn btn-lg btn-outline-warning']). "</p>",
+              ]
+          ],
+          'showIndicators' => true
+        ]); ?>
 
+
+  <main>
+    <section class="container-fluid information-about-dl">
+      <div class="container">
+        <div class="row text-center header-alert">
+          <div class="col-12 alert alert-secondary" role="alert">
+            <h2>Знаєте щось про дистанційне навчання? Ні? Читайте нижче!</h2>
+          </div>
+        </div>
+        <div class="row text-center justify-content-center">
+          <div class="col-xs-12 col-sm-6 col-lg-4">
+            <?= Html::img('@web/img/advantages/1.png'); ?>
+            <h3>Дистанційне навчання</h3>
+            <p>Сукупність сучасних технологій, що забезпечують доставку інформації в інтерактивному режимі за допомогою використання ІКТ (інформаційно-комунікаційних технологій) від тих, хто навчає (викладачів, визначних постатей у певних галузях науки, політиків), до тих, хто навчається (студентів чи слухачів).</p>
+          </div>
+          <div class="col-xs-12 col-sm-6 col-lg-4">
+            <?= Html::img('@web/img/advantages/2.png'); ?>
+            <h3>Інтерактивність</h3>
+            <p>Інтерактивна взаємодія у процесі навчання - один із основних принципів дистанційного навчання. Інтерактивність - це принцип організації системи, при якому мета досягається інформаційним обміном елементів цієї системи. Елементами інтерактивності є всі елементи взаємодіючої системи.</p>
+          </div>
+          <div class="col-xs-12 col-sm-6 col-lg-4">
+            <?= Html::img('@web/img/advantages/3.png'); ?>
+            <h3>Самостійність</h3>
+            <p>D-learning надає всім бажаючим можливість самостійного освоєння досліджуваного матеріалу. Просто оберіть ту тему, яка вас цікавить і станьте фахівцем в даному питанні за допомогою нашої платформи для дистанційного навчання. Максимум зусиль і результат не змусить вас довго чекати.</p>
+          </div>
+          <div class="col-xs-12 col-sm-6 col-lg-4">
+            <?= Html::img('@web/img/advantages/4.png'); ?>
+            <h3>Супровід фахівців</h3>
+            <p>Якщо в процесі дистанційного навчання у вас виникли труднощі - консультаційний супровід ваш рятівник. Самостійність освоєння не виключає того, що в будь-який момент ви можете звернутись до фахівців та отримати змістовну консультацію з того чи іншого питання.</p>
+          </div>
+          <div class="col-xs-12 col-sm-6 col-lg-4">
+            <?= Html::img('@web/img/advantages/5.png'); ?>
+            <h3>Роль ІТ</h3>
+            <p>Інформатизація істотно вплинула на процес придбання знань. Нові технології навчання на основі інформаційних і комунікаційних дозволяють інтенсифікувати освітній процес, збільшити швидкість сприйняття, розуміння та глибину засвоєння величезних масивів знань у різних галузях.</p>
+          </div>
+          <div class="col-xs-12 col-sm-6 col-lg-4">
+            <?= Html::img('@web/img/advantages/6.png'); ?>
+            <h3>Навчання на відстані</h3>
+            <p>Дає змогу навчатися на відстані, за допомогою диспутів експертів із кількох країн, за відсутності викладача. В данному випадку ви не закріпленні за місцем та часом навчання, можете особисто планувати свій навчальний процес (обсяг та інтенсивність кожного з уроків курсу).</p>
+          </div>
+        </div>
       </div>
-  <?php else: ?>
-      <?= Sections::build_tree_site_section(Sections::getStructure(), 0); ?>
-      <p>Ваши подписки:</p>
-      <?php foreach(Subscribers::getByUser(Yii::$app->user->id) as $subs): ?>
-          <?=  Html::a($subs->lesson->name.'('.$subs->user->username.')', ['site/lesson-view', 'id' => $subs->lesson->id]); ?>
-      <?php endforeach; ?>
-  <?php endif; ?>
+    </section>
 
-</div>
+    <div class="modal fade" id="exampleModal" tabindex="1" role="dialog" aria-labelledby="exampleModal" aria-hidden="true">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content bg-dark">
+          <div class="modal-header">
+            <h5 class="modal-title" id="exampleModalLabel">Авторизація</h5>
+            <button class="close" type="button" data-dismiss="modal" aria-label="Close">
+              <span aria-hidden="true">&times;</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="container-fluid">
+              <form>
+                <div class="form-group">
+                  <label for="exampleInputLogin">Логін</label>
+                  <input type="text" class="form-control" id="exampleInputLogin" aria-describdby="loginHelp" placeholder="Your login" required>
+                  <small id="emailHelp" class="form-text text-muted">Поле обов'язкове для заповнення!</small>
+                </div>
+                <div class="form-group">
+                  <label for="exampleInputPass">Пароль</label>
+                  <input type="password" class="form-control" id="exampleInputPass" aria-describdby="passHelp" placeholder="Your password" required>
+                  <small id="passHelp" class="form-text text-muted">Поле обов'язкове для заповнення!</small>
+                </div>
+                <button type="submit" class="btn btn-secondary">Відправити</button>
+              </form>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <section class="container-fluid why-me">
+      <div class="container">
+        <div class="row text-center">
+          <div class="col-12 header-section">
+            <h2>Чому слід обрати саме нас?</h2>
+          </div>
+        </div>
+        <div class="row text-center justify-content-center">
+          <div class="col-lg-6 col-sm-12">
+            <?= Html::img('@web/img/new_tech.png'); ?>
+            <h3>Використання нових технологій</h3>
+            <p>Розвиток ІКТ відбуєваться шаленими темпами, досить таки складно крокувати нога в ногу з трендами, але нам це вдається. При розробці платформи для дистанційної освіти взято до уваги це і використанно найновіші технології для реалізації.</p>
+          </div>
+          <div class="col-lg-6 col-sm-12">
+            <?= Html::img('@web/img/level.png'); ?>
+            <h3>Спілкування на одному рівні</h3>
+            <p>Що найголовніше для людини, яка пробує щось нове? Вірно, зручність, комфорт! Ми зовсім недавно самі були студентами, розуміємо що саме потрібно і як це реалізувати, щоб у студента не виникало заявих питань. Якщо ж виникли труднощі, то ми допоможемо в цьому!</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class=" container-fluid who">
+      <div class="container">
+        <div class="row text-center header-alert">
+          <div class="col-12 alert alert-secondary" role="alert">
+            <h2>Для кого ці курси можуть бути корисними?</h2>
+          </div>
+        </div>
+        <div class="row text-center justify-content-center">
+          <div class="col-xs-12 col-sm-6 col-lg-4">
+            <?= Html::img('@web/img/who/new.png'); ?>
+            <h3>Новачок</h3>
+            <p>Ти щось не знаєш? Хочеш здобути початкову базу знань в тому чи іншому питанні? Не проблема, допоможемо!</p>
+          </div>
+          <div class="col-xs-12 col-sm-6 col-lg-4">
+            <?= Html::img('@web/img/who/more.png'); ?>
+            <h3>Дізнайся більше</h3>
+            <p>В тебе вже є початкова база знань, але тобі цього не достатньо? Обери потрібний курс і вивчи більш поглиблено!</p>
+          </div>
+          <div class="col-xs-12 col-sm-6 col-lg-4">
+            <?= Html::img('@web/img/who/check.png'); ?>
+            <h3>Закріпи свої знання</h3>
+            <p>Важаєш себе експертом в тому чи іншому питанні? Перевір свої знання, можливо, щось нове знайдеш для себе, те, чого не знав!</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="container-fluid">
+      <div class="container">
+        <div class="row text-center header-alert">
+          <div class="col-12 alert alert-secondary" role="alert">
+            <h2>Виникли питання? Опишіть вашу проблему і отримайте відповідь!</h2>
+          </div>
+        </div>
+      </div>
+      <form class="contacts_form">
+        <p><input type="text" name="name" class="feedback_input" placeholder="Name" id="Ім'я"></p>
+        <p><input type="email" name="email" class="feedback_input" placeholder="Email" id="Електронна пошта"></p>
+        <p><textarea name="text" class="feedback_input" id="comment" placeholder="Повідомлення"></textarea></p>
+        <input type="submit" value="Надіслати повідомлення" class="button_submit">
+        <div class="ease"></div>
+      </form>
+    </section>
+
+  </main>

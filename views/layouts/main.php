@@ -76,13 +76,13 @@ AppAsset::register($this);
     </div>
   </nav>
 
-    <div class="container">
+
         <?= Breadcrumbs::widget([
             'links' => isset($this->params['breadcrumbs']) ? $this->params['breadcrumbs'] : [],
         ]) ?>
         <?= Alert::widget() ?>
         <?= $content ?>
-    </div>
+    
 </div>
 
 <footer class="footer bg-dark">
