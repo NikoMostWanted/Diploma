@@ -32,94 +32,49 @@ AppAsset::register($this);
 <div class="wrap">
 
   <nav class="navbar navbar-expand-lg navbar-dark bg-dark sticky-top">
-    <a href="index.html" class="navbar-brand">
+    <a href="/" class="navbar-brand">
       <?= Html::img('@web/img/logo.png'); ?>
     </a>
-    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon"></span>
-    </button>
 
-    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
       <ul class="navbar-nav mr-auto">
-        <li class="nav-item active">
-          <a href="index.html" class="nav-link">Головна</a>
-        </li>
-        <li class="nav-item">
-          <a href="courses.html" class="nav-link">Курси</a>
-        </li>
-        <li class="nav-item">
-          <a href="contacts.html" class="nav-link">Контакти</a>
-        </li>
-        <li class="nav-item">
-          <a href="about.html" class="nav-link">Про нас</a>
-        </li>
+        <?php foreach(Navigations::getClientNav() as $nav): ?>
+          <?php if($nav->alias == 'AdminPanel'): ?>
+            <?php if(Users::isAdmin(Yii::$app->user->id)): ?>
+              <li class="nav-item">
+                <?= Html::a($nav->label, [$nav->url], ['class' => 'nav-link']) ?>
+              </li>
+            <?php endif; ?>
+            <?php elseif($nav->alias == 'Lessons'): ?>
+            <?php if(!Yii::$app->user->isGuest && (Users::isAdmin(Yii::$app->user->id) || Users::isTeacher(Yii::$app->user->id))): ?>
+              <li class="nav-item">
+                <?= Html::a($nav->label, [$nav->url], ['class' => 'nav-link']) ?>
+              </li>
+            <?php endif; ?>
+          <?php elseif($nav->alias != 'Authorization'): ?>
+            <li class="nav-item">
+              <?= Html::a($nav->label, [$nav->url], ['class' => 'nav-link']) ?>
+            </li>
+          <?php endif; ?>
+        <?php endforeach; ?>
       </ul>
+
       <ul class="form-inline my-2 my-lg-0">
-        <span class="badge">Ви зайшли як гість</span>
-        <button class="btn btn-outline-secondary" data-toggle="modal" data-target="#exampleModal">
-        Авторизуватися
-        </button>
+        <?php foreach(Navigations::getClientNav() as $nav): ?>
+          <?php if($nav->alias == 'Authorization'): ?>
+            <?php if(Yii::$app->user->isGuest): ?>
+              <span class="badge">Ви зайшли як гість</span>
+              <?= Html::a($nav->label, [$nav->url], ['class' => 'btn btn-outline-secondary']) ?>
+            <? else: ?>
+              <?= Html::beginForm(['/site/logout'], 'post'); ?>
+              <input type="submit" class="btn btn-outline-secondary" value="Вийти(<?= Yii::$app->user->identity->username; ?>)">
+              <?= Html::endForm(); ?>
+            <? endif; ?>
+          <? endif; ?>
+        <?php endforeach; ?>
       </ul>
     </div>
   </nav>
-    <?php
-    NavBar::begin([
-        'brandLabel' => Yii::$app->name,
-        'brandUrl' => Yii::$app->homeUrl,
-        'options' => [
-            'class' => 'navbar-inverse navbar-fixed-top',
-        ],
-    ]);
-
-    foreach(Navigations::getClientNav() as $nav):
-
-      if($nav->alias == 'AdminPanel'):
-        echo Nav::widget([
-            'options' => ['class' => 'navbar-nav navbar-right'],
-            'items' => [
-                Users::isAdmin(Yii::$app->user->id) ? (
-                  ['label' => $nav->label, 'url' => [$nav->url]]
-                ) : ('')
-            ]
-        ]);
-      elseif($nav->alias == 'Authorization'):
-        echo Nav::widget([
-            'options' => ['class' => 'navbar-nav navbar-right'],
-            'items' => [
-                Yii::$app->user->isGuest ? (
-                    ['label' => $nav->label, 'url' => [$nav->url]]
-                ) : (
-                    '<li>'
-                    . Html::beginForm(['/site/logout'], 'post')
-                    . Html::submitButton(
-                        'Выйти (' . Yii::$app->user->identity->username . ')',
-                        ['class' => 'btn btn-link logout']
-                    )
-                    . Html::endForm()
-                    . '</li>'
-                )
-            ],
-        ]);
-      elseif($nav->alias == 'Lessons'):
-        echo Nav::widget([
-            'options' => ['class' => 'navbar-nav navbar-right'],
-            'items' => [
-                (!Yii::$app->user->isGuest && (Users::isAdmin(Yii::$app->user->id) || Users::isTeacher(Yii::$app->user->id)))  ? (
-                    ['label' => $nav->label, 'url' => [$nav->url]]
-                ) : ('')
-            ],
-        ]);
-      else:
-        echo Nav::widget([
-            'options' => ['class' => 'navbar-nav navbar-right'],
-            'items' => [
-                  ['label' => $nav->label, 'url' => [$nav->url]]
-            ]
-        ]);
-      endif;
-    endforeach;
-    NavBar::end();
-    ?>
 
     <div class="container">
         <?= Breadcrumbs::widget([
@@ -148,10 +103,19 @@ AppAsset::register($this);
       <div class="col-3">
         <h3>Навігація</h3>
         <nav class="nav flex-column">
-          <a href="index.html" class="nav-link active">Головна</a>
-          <a href="courses.html" class="nav-link">Курси</a>
-          <a href="contacts.html" class="nav-link">Контакти</a>
-          <a href="about.html" class="nav-link">Про нас</a>
+          <?php foreach(Navigations::getClientNav() as $nav): ?>
+            <?php if($nav->alias == 'AdminPanel'): ?>
+              <?php if(Users::isAdmin(Yii::$app->user->id)): ?>
+                <?= Html::a($nav->label, [$nav->url], ['class' => 'nav-link']) ?>
+              <?php endif; ?>
+              <?php elseif($nav->alias == 'Lessons'): ?>
+              <?php if(!Yii::$app->user->isGuest && (Users::isAdmin(Yii::$app->user->id) || Users::isTeacher(Yii::$app->user->id))): ?>
+                <?= Html::a($nav->label, [$nav->url], ['class' => 'nav-link']) ?>
+              <?php endif; ?>
+            <?php elseif($nav->alias != 'Authorization'): ?>
+              <?= Html::a($nav->label, [$nav->url], ['class' => 'nav-link']) ?>
+            <?php endif; ?>
+          <?php endforeach; ?>
         </nav>
       </div>
     </div>
