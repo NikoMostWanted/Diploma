@@ -8,7 +8,6 @@ use yii\web\Controller;
 use yii\web\Response;
 use yii\filters\VerbFilter;
 use app\models\forms\LoginForm;
-use app\models\ContactForm;
 use app\models\Users;
 use app\models\forms\LessonForm;
 use app\models\Lessons;
@@ -16,6 +15,7 @@ use app\models\Locations;
 use yii\data\Pagination;
 use app\models\Files;
 use app\models\Subscribers;
+use app\models\forms\ContactForm;
 
 class SiteController extends Controller
 {
